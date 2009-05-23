@@ -72,7 +72,7 @@ void draw()
   for (int c = 0; c < 10; c++){ 
     noFill();
     stroke(0);
-    ellipse(enem[c][j].ex, enem[c][j].ey, 50, 50);
+    //ellipse(enem[c][j].ex, enem[c][j].ey, 50, 50);
     if((w1.bx >= enem[c][j].ex-20)&&(w1.bx <= enem[c][j].ex+20)&&(w1.by >= enem[c][j].ey-20)&&(w1.by <= enem[c][j].ey+30)){
       s1.fc[c][j] = false;
       w1.bvy = -(w1.bvy);
