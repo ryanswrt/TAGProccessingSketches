@@ -1,7 +1,10 @@
 /**
- * Commundo Minigame prototype
+ * Translate. 
  * 
- * Breakout meets Invaders meets a Shmup
+ * The translate() function allows objects to be moved
+ * to any location within the window. The first parameter
+ * sets the x-axis offset and the second parameter sets the
+ * y-axis offset. 
  */
  
 Player p1;
@@ -10,15 +13,12 @@ Spawn s1;
 Enemy[][] enem;
 ParticleSystem ps;
 Random generator;
-Newscreen ns;
 
 int num, rn, counter, charge;
 float size = 40.0;
 int bg;
 PImage playerImage, enemyImage, bgImage;
 PFont fontA;
-int escaped;
-
 void setup() 
 {
   
@@ -41,7 +41,6 @@ void setup()
   p1 = new Player(450,100);
   w1 = new Weapon(width/2, 200);
   s1 = new Spawn(true);
-  ns = new Newscreen();
   generator = new Random();
   enem = new Enemy[num][rn];
   ps = new ParticleSystem(1, new PVector(width/2,height/2,0));
@@ -61,10 +60,8 @@ void draw()
   fill(50);
      if(keyPressed) {
     if (key == 'r' || key == 'Q') {
-      ns.draw();
         enem = new Enemy[num][rn];
   for (int j = 0; j < rn; j ++) {
-  
   for (int i = 0; i < 10; i++) {      
     enem[i][j] = new Enemy(120 + i*50,j*20 + int(random(50)));
     s1.fc[i][j] = true;
@@ -76,25 +73,11 @@ void draw()
   background(bgImage);  
   p1.display();
   w1.create();
-  if(random(100)>95){
-}
   s1.spawn();
   for (int j = 0; j < rn; j++){
   for (int c = 0; c < 10; c++){ 
     noFill();
     stroke(0);
-    if((c<9)&&(j<3)){
-    if((enem[c][j].ex == enem[c+1][j+1].ex+5)||(enem[c][j].ex == enem[c+1][j+1].ex-5)){
-      enem[c][j].ey = enem[c][j].ey + 10;}}
-    if(enem[c][j].ey == 450){
-      escaped ++;
-      if(escaped> 10){
-           text("Game Over", (width/2), (height/2));
-    delay(10);
-    //exit();
-  }
-    }
-        
     //ellipse(enem[c][j].ex, enem[c][j].ey, 50, 50);
     if((w1.bx >= enem[c][j].ex-20)&&(w1.bx <= enem[c][j].ex+20)&&(w1.by >= enem[c][j].ey-20)&&(w1.by <= enem[c][j].ey+30)){
       s1.fc[c][j] = false;
@@ -103,8 +86,7 @@ void draw()
       w1.bvy = -(w1.bvy);
       w1.by = w1.by+10;
       w1.bvx = (w1.bx-enem[c][j].ex)/2;
-      enem[c][j].ey = 0;
-      enem[c][j].ex = width+50;
+      enem[c][j].ey = 1000;
       counter++;
     }
     }
@@ -114,9 +96,6 @@ void draw()
     w1.bvy = -((10/w1.bvy)+w1.bvy);
     w1.by = w1.by-10;
     w1.bvx = (w1.bx-p1.cx)/2;
-    for( int ev = 0; ev < 10; ev++){
-      ps.addParticle(w1.bx+int(random(4))-2,w1.by+int(random(4))-2,color(0,0,250,50) );}
- 
   }else if(w1.by > p1.ay +250){ 
   w1.reset();
   charge--;
@@ -138,7 +117,6 @@ class Enemy
   //int ex, ey;
   float eyv, exv, ran, ex, ey;
   boolean ai;
-  int a;
 //  str breed;
   
   Enemy(int iex, int iey){
@@ -147,17 +125,12 @@ class Enemy
  //   breed = ibreed;
   }
   void spawn(boolean ia){
-    if (ia == true){
     ran = random(10);
     ai = ia;
-    if(a == 0){
-      if(random(100)>75){
-    eyv = 0.4; 
-  a++; } else { eyv = 0.1;
-a++;}}
+    eyv = 0.1;
     ex = ex + exv;
     ey = ey + eyv;
-    
+    if (ia == true){
     //rect(ex-enemyImage.width/2, ey, enemyImage.width, 10);    
     if(ran > 9){
     exv = random(4) - 2;
